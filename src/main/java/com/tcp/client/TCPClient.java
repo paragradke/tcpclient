@@ -18,15 +18,16 @@ public class TCPClient {
   }
 
   private void start() throws IOException {
-    String input;
+    String command;
+    String data;
     DataInputStream dis = new DataInputStream(this.socket.getInputStream());
     DataOutputStream dos = new DataOutputStream(this.socket.getOutputStream());
     while (true) {
       System.out.println(dis.readUTF());
-      input = scanner.nextLine();
-      dos.writeUTF(input);
+      command = scanner.nextLine();
+      dos.writeUTF(command);
 
-      if (input.equals("Exit")) {
+      if (command.equals("Exit")) {
         System.out.println("Closing this connection : " + socket);
         String response = dis.readUTF();
         System.out.println(response);
@@ -34,12 +35,17 @@ public class TCPClient {
         break;
       }
 
+      if (command.equals("reserve")) {
+        String response = dis.readUTF();
+        System.out.println(response);
+        continue;
+      }
+
+      data = scanner.nextLine();
+      dos.writeUTF(data);
+
       String response = dis.readUTF();
       System.out.println(response);
-
-//      PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
-//      out.println(input);
-//      out.flush();
     }
 
     this.scanner.close();
