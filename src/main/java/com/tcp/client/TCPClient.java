@@ -41,8 +41,10 @@ public class TCPClient {
         continue;
       }
 
-      data = scanner.nextLine();
-      dos.writeUTF(data);
+      if (command.equals("put") || command.equals("use") || command.equals("delete") || command.equals("watch")) {
+        data = scanner.nextLine();
+        dos.writeUTF(data);
+      }
 
       String response = dis.readUTF();
       System.out.println(response);
